@@ -19,7 +19,7 @@ export const createDiaryAction = async (formData: FormData) => {
 
   await supabase.from("dairy").insert(data);
 
-  permanentRedirect("/dashboard/my-diary", RedirectType.replace);
+  redirect("/dashboard/my-diary", RedirectType.replace);
 };
 
 export async function deleteDiary(id: number | undefined) {
@@ -34,7 +34,7 @@ export const editDiaryAction = async (formData: FormData) => {
   const id = formData.get("diary_id");
 
   await supabase.from("dairy").update({ content: contentEdit }).eq("id", id);
-  permanentRedirect("/dashboard/my-diary", RedirectType.replace);
+  redirect("/dashboard/my-diary", RedirectType.replace);
 };
 
 export async function favDiary(

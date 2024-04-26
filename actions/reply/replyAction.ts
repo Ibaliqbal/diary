@@ -23,7 +23,7 @@ export async function createReplyAction(
   const myComments = user?.filter((u) => u.my_comments !== null)[0]
     ?.my_comments;
 
-  if (!email && !username) permanentRedirect("/sign-in");
+  if (!email && !username) redirect("/sign-in");
   if (!comment || comment.trim() == "") return;
   const { data: getComments } = await supabase
     .from("dairy")
@@ -138,5 +138,5 @@ export async function deleteReplyAction(formData: FormData) {
     .from("dairy")
     .update({ comments: updateReplys })
     .eq("id", diary_id);
-  permanentRedirect(`/dashboard/my-comments`, RedirectType.replace);
+  redirect(`/dashboard/my-comments`, RedirectType.replace);
 }

@@ -4,7 +4,7 @@ import { getUserData } from "@/utils/clerk";
 import { getUser, ICooments, supabase } from "@/utils/supabase";
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
-import { redirect, RedirectType } from "next/navigation";
+import { permanentRedirect, redirect, RedirectType } from "next/navigation";
 
 export const createCommentsAction = async (formData: FormData) => {
   const comment = formData.get("content") as string;
@@ -13,7 +13,7 @@ export const createCommentsAction = async (formData: FormData) => {
   const comment_id = randomUUID();
 
   const { avatar, email, username } = await getUserData();
-  if (!username && !email) redirect("/sign-in");
+  if (!username && !email) permanentRedirect("/sign-in");
 
   const data: ICooments = {
     avatar,

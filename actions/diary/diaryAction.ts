@@ -26,7 +26,7 @@ export async function deleteDiary(id: number | undefined) {
   if (!id) return;
   await supabase.from("dairy").delete().eq("id", id);
 
-  revalidatePath("/dashboard/my-diary");
+  redirect("/dashboard/my-diary");
 }
 
 export const editDiaryAction = async (formData: FormData) => {

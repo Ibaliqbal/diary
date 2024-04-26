@@ -22,61 +22,47 @@ const UserAction = ({
       <Link href={`/diary/${diary_id}/edit`}>
         <i className="bx bxs-edit-alt" />
       </Link>
-      <i
-        className="bx bxs-trash-alt"
-        onClick={() =>
-          Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              diaryAction.delete(diary_id);
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success",
-              });
-            }
-          })
-        }
-      />
-      <p className="flex items-center gap-2 justify-start">
+      <form action={diaryAction.delete.bind(null, diary_id)}>
+        <button type="submit">
+          <i className="bx bxs-trash-alt" />
+        </button>
+      </form>
+      <form
+        action={diaryAction.favorite.bind(
+          null,
+          diary_id,
+          "/dashboard/my-diary",
+          userDetail?.includes(diary_id) ? "unlike" : "like"
+        )}
+      >
+        <button type="submit" className="flex items-center gap-2 justify-start">
+          <i
+            className={`bx ${
+              userDetail?.includes(diary_id) ? "bxs-heart" : "bx-heart"
+            } text-2xl`}
+          />
+          {likes ? likes : 0}
+        </button>
+      </form>
+    </div>
+  ) : pathname === "/" || pathname === "/dashboard/favorite-diary" ? (
+    <form
+      action={diaryAction.favorite.bind(
+        null,
+        diary_id,
+        pathname,
+        userDetail?.includes(diary_id) ? "unlike" : "like"
+      )}
+    >
+      <button type="submit" className="mt-2 flex items-center gap-2">
         <i
           className={`bx ${
             userDetail?.includes(diary_id) ? "bxs-heart" : "bx-heart"
           } text-2xl`}
-          onClick={() => {
-            diaryAction.favorite(
-              diary_id,
-              "/dashboard/my-diary",
-              userDetail?.includes(diary_id) ? "unlike" : "like"
-            );
-          }}
         />
         {likes ? likes : 0}
-      </p>
-    </div>
-  ) : pathname === "/" || pathname === "/dashboard/favorite-diary" ? (
-    <p className="mt-2 flex items-center gap-2">
-      <i
-        className={`bx ${
-          userDetail?.includes(diary_id) ? "bxs-heart" : "bx-heart"
-        } text-2xl`}
-        onClick={() =>
-          diaryAction.favorite(
-            diary_id,
-            pathname,
-            userDetail?.includes(diary_id) ? "unlike" : "like"
-          )
-        }
-      />
-      {likes ? likes : 0}
-    </p>
+      </button>
+    </form>
   ) : null;
 };
 

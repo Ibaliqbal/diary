@@ -43,7 +43,7 @@ const Detail = async ({ params }: DetailProps) => {
         <p className="text-xl">{data.content}</p>
         <CommentList
           diary_id={data.id}
-          data={comments?.comments}
+          data={data?.comments}
           email_user={email}
         />
         <CommentsForm diary_id={data.id} />

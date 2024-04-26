@@ -32,7 +32,7 @@ const CommentList = ({ diary_id, data, email_user }: ContenListPorps) => {
             key={comment.id}
             className="shadow-lg shadow-black p-4 pb-8 flex flex-col gap-4 rounded-md"
           >
-            <Comment comment={comment}>
+            <Comment type="comment" comment={comment}>
               <CommentAction
                 diary_id={diary_id}
                 id={comment.id}

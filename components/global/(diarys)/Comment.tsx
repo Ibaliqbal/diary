@@ -7,9 +7,10 @@ import { motion } from "framer-motion";
 type Props = {
   comment: ICooments;
   children?: React.ReactNode;
+  type: "comment" | "reply";
 };
 
-const Comment = ({ comment, children }: Props) => {
+const Comment = ({ comment, children, type }: Props) => {
   return (
     <motion.div
       initial={{ opacity: 0.2, scale: 0, y: 50 }}
@@ -25,7 +26,11 @@ const Comment = ({ comment, children }: Props) => {
           height={70}
           className="rounded-full"
         />
-        <div className="flex flex-col text-sm justify-between gap-5">
+        <div
+          className={`flex flex-col ${
+            type === "comment" ? "text-sm" : "text-xs md:text-sm"
+          } justify-between gap-5`}
+        >
           <h4>{comment.username || comment.email}</h4>
           <p>
             {formatDistance(comment.created_at as Date, new Date(), {
@@ -37,7 +42,7 @@ const Comment = ({ comment, children }: Props) => {
       {comment.reply_to ? (
         <p className="italic">Reply to : {comment.reply_to}</p>
       ) : null}
-      <p>{comment.content}</p>
+      <p className="line-clamp-2">{comment.content}</p>
       {children}
     </motion.div>
   );

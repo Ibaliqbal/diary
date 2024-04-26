@@ -30,7 +30,7 @@ const Replys = ({
       <div className="divider"></div>
       {data?.map((reply, i) => {
         return (
-          <Comment comment={reply} key={reply.id}>
+          <Comment type="reply" comment={reply} key={reply.id}>
             <CommentAction
               diary_id={diary_id}
               id={comment_id}

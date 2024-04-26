@@ -4,6 +4,7 @@ import { getUserData } from "@/utils/clerk";
 import { supabase } from "@/utils/supabase";
 import React from "react";
 
+export const revalidate = 0;
 export default async function page() {
   const { email } = await getUserData();
   const { data, error } = await supabase

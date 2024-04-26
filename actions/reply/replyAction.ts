@@ -5,6 +5,7 @@ import { getUser, ICooments, supabase } from "@/utils/supabase";
 import { randomUUID, UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { RedirectType } from "next/navigation";
 
 export async function createReplyAction(
   formData: {
@@ -69,7 +70,7 @@ export async function createReplyAction(
       .update({ comments: commentsUpdate })
       .eq("id", formData.diary_id);
 
-    redirect(`/diary/${formData.diary_id}`);
+    redirect(`/diary/${formData.diary_id}`, RedirectType.push);
   } else {
     const getIndex = getComments?.comments.findIndex((comment: ICooments) =>
       comment.comments?.find((reply) => reply.id === formData.comment_id)
@@ -99,7 +100,7 @@ export async function createReplyAction(
       .update({ comments: commentsUpdate })
       .eq("id", formData.diary_id);
 
-    revalidatePath(`/diary/${formData.diary_id}`);
+    redirect(`/diary/${formData.diary_id}`, RedirectType.push);
   }
 }
 
@@ -137,5 +138,5 @@ export async function deleteReplyAction(formData: FormData) {
     .from("dairy")
     .update({ comments: updateReplys })
     .eq("id", diary_id);
-  redirect(`/dashboard/my-comments`);
+  redirect(`/dashboard/my-comments`, RedirectType.push);
 }

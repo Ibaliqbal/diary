@@ -3,7 +3,7 @@
 import { getUserData } from "@/utils/clerk";
 import { IDiary, supabase } from "@/utils/supabase";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 
 export const createDiaryAction = async (formData: FormData) => {
   const content = formData.get("content") as string;
@@ -19,14 +19,14 @@ export const createDiaryAction = async (formData: FormData) => {
 
   await supabase.from("dairy").insert(data);
 
-  redirect("/dashboard/my-diary");
+  redirect("/dashboard/my-diary", RedirectType.push);
 };
 
 export async function deleteDiary(id: number | undefined) {
   if (!id) return;
   await supabase.from("dairy").delete().eq("id", id);
 
-  redirect("/dashboard/my-diary");
+  redirect("/dashboard/my-diary", RedirectType.push);
 }
 
 export const editDiaryAction = async (formData: FormData) => {
@@ -34,7 +34,7 @@ export const editDiaryAction = async (formData: FormData) => {
   const id = formData.get("diary_id");
 
   await supabase.from("dairy").update({ content: contentEdit }).eq("id", id);
-  redirect("/dashboard/my-diary");
+  redirect("/dashboard/my-diary", RedirectType.push);
 };
 
 export async function favDiary(
@@ -71,5 +71,5 @@ export async function favDiary(
 
   await supabase.from("dairy").update({ likes: likesDiary }).eq("id", id);
 
-  redirect(red);
+  redirect(red, RedirectType.push);
 }

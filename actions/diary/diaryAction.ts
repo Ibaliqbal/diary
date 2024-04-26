@@ -19,7 +19,7 @@ export const createDiaryAction = async (formData: FormData) => {
 
   await supabase.from("dairy").insert(data);
 
-  redirect("/dashboard/my-diary", RedirectType.replace);
+  return redirect("/dashboard/my-diary", RedirectType.replace);
 };
 
 export async function deleteDiary(id: number | undefined) {
@@ -34,7 +34,7 @@ export const editDiaryAction = async (formData: FormData) => {
   const id = formData.get("diary_id");
 
   await supabase.from("dairy").update({ content: contentEdit }).eq("id", id);
-  redirect("/dashboard/my-diary", RedirectType.replace);
+  return redirect("/dashboard/my-diary", RedirectType.replace);
 };
 
 export async function favDiary(
@@ -43,7 +43,7 @@ export async function favDiary(
   type: "like" | "unlike"
 ) {
   const { email, username } = await getUserData();
-  if (!username && !email) redirect("/sign-in", RedirectType.push);
+  if (!username && !email) return redirect("/sign-in", RedirectType.push);
 
   const { data: favorite } = await supabase
     .from("dairy")

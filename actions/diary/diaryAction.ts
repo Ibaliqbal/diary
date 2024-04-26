@@ -2,6 +2,7 @@
 
 import { getUserData } from "@/utils/clerk";
 import { IDiary, supabase } from "@/utils/supabase";
+import { revalidatePath } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 
 export const createDiaryAction = async (formData: FormData) => {
@@ -25,7 +26,7 @@ export async function deleteDiary(id: number | undefined) {
   if (!id) return;
   await supabase.from("dairy").delete().eq("id", id);
 
-  redirect("/dashboard/my-diary", RedirectType.replace);
+  revalidatePath("/dashboard/my-diary");
 }
 
 export const editDiaryAction = async (formData: FormData) => {

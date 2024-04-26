@@ -70,7 +70,7 @@ export async function createReplyAction(
       .update({ comments: commentsUpdate })
       .eq("id", formData.diary_id);
 
-    redirect(`/diary/${formData.diary_id}`, RedirectType.push);
+    revalidatePath(`/diary/${formData.diary_id}`);
   } else {
     const getIndex = getComments?.comments.findIndex((comment: ICooments) =>
       comment.comments?.find((reply) => reply.id === formData.comment_id)
@@ -100,7 +100,7 @@ export async function createReplyAction(
       .update({ comments: commentsUpdate })
       .eq("id", formData.diary_id);
 
-    redirect(`/diary/${formData.diary_id}`, RedirectType.push);
+    revalidatePath(`/diary/${formData.diary_id}`);
   }
 }
 
@@ -138,5 +138,5 @@ export async function deleteReplyAction(formData: FormData) {
     .from("dairy")
     .update({ comments: updateReplys })
     .eq("id", diary_id);
-  redirect(`/dashboard/my-comments`, RedirectType.push);
+  redirect(`/dashboard/my-comments`, RedirectType.replace);
 }

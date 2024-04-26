@@ -3,6 +3,7 @@
 import { getUserData } from "@/utils/clerk";
 import { getUser, ICooments, supabase } from "@/utils/supabase";
 import { randomUUID } from "crypto";
+import { revalidatePath } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 
 export const createCommentsAction = async (formData: FormData) => {
@@ -46,7 +47,7 @@ export const createCommentsAction = async (formData: FormData) => {
     .update({ my_comments: newMyComment })
     .eq("email", email);
 
-  redirect(`/diary/${id}`, RedirectType.push);
+  revalidatePath(`/diary/${id}`);
 };
 
 export const deleteCommentAction = async (formData: FormData) => {
@@ -77,5 +78,5 @@ export const deleteCommentAction = async (formData: FormData) => {
     .update({ comments: filtered })
     .eq("id", diary_id);
 
-  redirect(`/diary/${diary_id}`, RedirectType.push);
+  revalidatePath(`/diary/${diary_id}`);
 };

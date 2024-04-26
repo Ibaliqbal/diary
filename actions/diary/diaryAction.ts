@@ -71,5 +71,5 @@ export async function favDiary(
 
   await supabase.from("dairy").update({ likes: likesDiary }).eq("id", id);
 
-  redirect(red, RedirectType.replace);
+  revalidatePath(red);
 }

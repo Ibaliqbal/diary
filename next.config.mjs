@@ -7,6 +7,23 @@ const nextConfig = {
       },
     ],
   },
+  redirects: [
+    {
+      source: "/dashboard",
+      destination: "/dashboard/my-diary",
+      permanent: false,
+    },
+    {
+      source: "/diary/:id*",
+      destination: "/dashboard/my-diary",
+      permanent: false,
+    },
+    {
+      source: "/diary/:id",
+      destination: "/dashboard/my-comments",
+      permanent: false,
+    },
+  ],
 };
 
 export default nextConfig;

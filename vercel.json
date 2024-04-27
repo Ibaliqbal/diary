@@ -3,7 +3,13 @@
     {
       "source": "/dashboard",
       "destination": "/dashboard/my-diary",
-      "permanent": false
+      "permanent": false,
+      "has": [
+        {
+          "type": "headers",
+          "key": "x-dont-redirect"
+        }
+      ]
     },
     {
       "source": "/diary/:id*",

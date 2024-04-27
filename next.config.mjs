@@ -14,7 +14,7 @@ const nextConfig = {
       permanent: false,
       has: [
         {
-          type: "headers",
+          type: "header",
           key: "x-dont-redirect",
         },
       ],

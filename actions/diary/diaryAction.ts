@@ -62,7 +62,11 @@ export async function favDiary(
       ? [...existingFavorites, id]
       : existingFavorites.filter((f: any) => f !== id);
   const likesDiary =
-    type === "like" ? existingLikesDiarySup + 1 : existingLikesDiarySup - 1;
+    type === "like"
+      ? existingLikesDiarySup + 1
+      : existingLikesDiarySup === 0
+      ? 0
+      : existingLikesDiarySup - 1;
 
   await supabase
     .from("dairy")

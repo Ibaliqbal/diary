@@ -12,6 +12,12 @@ const nextConfig = {
       source: "/dashboard",
       destination: "/dashboard/my-diary",
       permanent: false,
+      has: [
+        {
+          type: "headers",
+          key: "x-dont-redirect",
+        },
+      ],
     },
     {
       source: "/diary/:id*",
@@ -22,6 +28,13 @@ const nextConfig = {
       source: "/diary/:id",
       destination: "/dashboard/my-comments",
       permanent: false,
+      has: [
+        {
+          type: "query",
+          key: "comment",
+          value: "true",
+        },
+      ],
     },
   ],
 };

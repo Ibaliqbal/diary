@@ -15,7 +15,7 @@ const nextConfig = {
       has: [
         {
           type: "header",
-          key: "x-dont-redirect",
+          key: "x-redirect-me",
         },
       ],
     },

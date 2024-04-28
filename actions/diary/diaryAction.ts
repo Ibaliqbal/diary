@@ -3,7 +3,6 @@
 import { getUserData } from "@/utils/clerk";
 import { IDiary, supabase } from "@/utils/supabase";
 import { revalidatePath } from "next/cache";
-import { permanentRedirect, redirect, RedirectType } from "next/navigation";
 
 export const createDiaryAction = async (formData: FormData) => {
   const content = formData.get("content") as string;
@@ -19,7 +18,9 @@ export const createDiaryAction = async (formData: FormData) => {
 
   await supabase.from("dairy").insert(data);
 
-  return redirect("/dashboard/my-diary", RedirectType.replace);
+  revalidatePath("/dashboard/my-diary");
+
+  return true;
 };
 
 export async function deleteDiary(id: number | undefined) {
@@ -34,7 +35,8 @@ export const editDiaryAction = async (formData: FormData) => {
   const id = formData.get("diary_id");
 
   await supabase.from("dairy").update({ content: contentEdit }).eq("id", id);
-  return redirect("/dashboard/my-diary", RedirectType.replace);
+  revalidatePath("/dashboard/my-diary");
+  return true;
 };
 
 export async function favDiary(
@@ -43,7 +45,7 @@ export async function favDiary(
   type: "like" | "unlike"
 ) {
   const { email, username } = await getUserData();
-  if (!username && !email) return redirect("/sign-in", RedirectType.push);
+  if (!username && !email) return false;
 
   const { data: favorite } = await supabase
     .from("dairy")

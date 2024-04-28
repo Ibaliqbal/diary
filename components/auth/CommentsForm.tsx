@@ -1,5 +1,6 @@
 "use client";
 import { commentAction } from "@/actions/comment";
+import { useRouter } from "next/navigation";
 import React, { RefObject, useRef } from "react";
 
 type CommentFormProps = {
@@ -8,15 +9,21 @@ type CommentFormProps = {
 
 const CommentsForm = ({ diary_id }: CommentFormProps) => {
   const formRef: RefObject<HTMLFormElement> = useRef<HTMLFormElement>(null);
-  const resetForm = () => {
+  const router = useRouter();
+  const resetForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(formRef.current as HTMLFormElement);
+    const result = await commentAction.create(form);
+    if (result === false) {
+      router.push("/sign-in");
+    }
     setTimeout(() => {
       formRef.current?.reset();
     }, 1000);
   };
   return (
     <form
-      action={commentAction.create}
-      onSubmit={resetForm}
+      onSubmit={(e) => resetForm(e)}
       ref={formRef}
       className="flex flex-col gap-4 mx-auto w-full"
     >

@@ -13,7 +13,7 @@ export const createCommentsAction = async (formData: FormData) => {
   const comment_id = randomUUID();
 
   const { avatar, email, username } = await getUserData();
-  if (!username && !email) return redirect("/sign-in");
+  if (!username && !email) return false;
 
   const data: ICooments = {
     avatar,

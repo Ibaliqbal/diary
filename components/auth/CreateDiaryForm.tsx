@@ -1,5 +1,7 @@
+"use client";
 import { diaryAction } from "@/actions/diary";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { RefObject, useRef } from "react";
 
 type Props = {
   edit: boolean;
@@ -8,10 +10,21 @@ type Props = {
 };
 
 const CreateDiaryForm = ({ edit, content, diary_id }: Props) => {
+  const formRef: RefObject<HTMLFormElement> = useRef<HTMLFormElement>(null);
   const actions = !edit ? diaryAction.create : diaryAction.edit;
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = new FormData(formRef.current as HTMLFormElement);
+    const result = await actions(form);
+    if (result === true) {
+      router.push("/dashboard/my-diary");
+    }
+  };
   return (
     <form
-      action={actions}
+      onSubmit={(e) => handleSubmit(e)}
+      ref={formRef}
       className="flex flex-col col-span-3 gap-4 w-full mt-4 mx-auto pb-24"
     >
       <textarea

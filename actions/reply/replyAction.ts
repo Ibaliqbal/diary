@@ -4,8 +4,6 @@ import { getUserData } from "@/utils/clerk";
 import { getUser, ICooments, supabase } from "@/utils/supabase";
 import { randomUUID, UUID } from "crypto";
 import { revalidatePath } from "next/cache";
-import { permanentRedirect, redirect } from "next/navigation";
-import { RedirectType } from "next/navigation";
 
 export async function createReplyAction(
   formData: {
@@ -23,7 +21,7 @@ export async function createReplyAction(
   const myComments = user?.filter((u) => u.my_comments !== null)[0]
     ?.my_comments;
 
-  if (!email && !username) return redirect("/sign-in");
+  if (!email && !username) return false;
   if (!comment || comment.trim() == "") return;
   const { data: getComments } = await supabase
     .from("dairy")
@@ -138,5 +136,6 @@ export async function deleteReplyAction(formData: FormData) {
     .from("dairy")
     .update({ comments: updateReplys })
     .eq("id", diary_id);
-  return redirect(`/dashboard/my-comments`, RedirectType.replace);
+  revalidatePath(`/diary/${diary_id}`);
+  return true;
 }

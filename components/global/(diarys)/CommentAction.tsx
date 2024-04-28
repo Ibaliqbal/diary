@@ -1,3 +1,4 @@
+// "use client"
 import { commentAction } from "@/actions/comment";
 import { replyAction } from "@/actions/reply";
 import { getUser } from "@/utils/supabase";

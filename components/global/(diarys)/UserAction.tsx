@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import Swal from "sweetalert2";
 import { diaryAction } from "@/actions/diary";
 
 const UserAction = ({
@@ -16,6 +15,7 @@ const UserAction = ({
   likes: number | undefined;
 }) => {
   const pathname = usePathname();
+  const router = useRouter();
 
   return pathname === "/dashboard/my-diary" ? (
     <div className="flex items-center gap-5 text-xl mt-4">
@@ -47,12 +47,17 @@ const UserAction = ({
     </div>
   ) : pathname === "/" || pathname === "/dashboard/favorite-diary" ? (
     <form
-      action={diaryAction.favorite.bind(
-        null,
-        diary_id,
-        pathname,
-        userDetail?.includes(diary_id) ? "unlike" : "like"
-      )}
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const result = await diaryAction.favorite(
+          diary_id,
+          pathname,
+          userDetail?.includes(diary_id) ? "unlike" : "like"
+        );
+        if (result === false) {
+          router.push("/sign-in");
+        }
+      }}
     >
       <button type="submit" className="mt-2 flex items-center gap-2">
         <i

@@ -1,6 +1,7 @@
 "use client";
 import { replyAction } from "@/actions/reply";
 import { UUID } from "crypto";
+import { useRouter } from "next/navigation";
 import React, { FormEvent } from "react";
 import { useFormStatus } from "react-dom";
 
@@ -18,6 +19,7 @@ const ReplyCommentForm = ({
   replys_to_reply,
 }: Props) => {
   const { pending } = useFormStatus();
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,8 +30,10 @@ const ReplyCommentForm = ({
       diary_id,
       comment_id: id,
     };
-    await replyAction.create(data, replys_to_reply);
-
+    const result = await replyAction.create(data, replys_to_reply);
+    if (result === false) {
+      router.push("/sign-in");
+    }
     form.reset();
     input.checked = false;
   };

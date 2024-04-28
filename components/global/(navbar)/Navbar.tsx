@@ -9,7 +9,12 @@ export default function Navbar() {
         <Link href={"/"} className="btn btn-ghost text-xl">
           Open diary
         </Link>
-        <NavbarButton />
+        <div className="flex items-center p-2 gap-3">
+          <a href="https://github.com/Ibaliqbal" target="_blank">
+            <i className="bx bxl-github text-2xl" />
+          </a>
+          <NavbarButton />
+        </div>
       </div>
     </div>
   );
